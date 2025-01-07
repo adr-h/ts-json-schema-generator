@@ -1,8 +1,9 @@
-import { Definition } from "../Schema/Definition.js";
-import { RawTypeName } from "../Schema/RawType.js";
-import { SubTypeFormatter } from "../SubTypeFormatter.js";
-import { BaseType } from "../Type/BaseType.js";
-import { LiteralType, LiteralValue } from "../Type/LiteralType.js";
+import type { Definition } from "../Schema/Definition.js";
+import type { RawTypeName } from "../Schema/RawType.js";
+import type { SubTypeFormatter } from "../SubTypeFormatter.js";
+import type { BaseType } from "../Type/BaseType.js";
+import type { LiteralValue } from "../Type/LiteralType.js";
+import { LiteralType } from "../Type/LiteralType.js";
 import { NullType } from "../Type/NullType.js";
 import { StringType } from "../Type/StringType.js";
 import { UnionType } from "../Type/UnionType.js";
