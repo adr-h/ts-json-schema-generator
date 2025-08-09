@@ -1,4 +1,4 @@
-import { FunctionTypeNode, FunctionExpression, FunctionDeclaration, ArrowFunction, getJSDocCommentsAndTags } from "typescript";
+import { FunctionTypeNode, FunctionExpression, FunctionDeclaration, ArrowFunction, getJSDocCommentsAndTags, isJSDoc } from "typescript";
 import { BaseType } from "./BaseType.js";
 import type { ObjectType } from "./ObjectType.js";
 
@@ -12,7 +12,20 @@ export class FunctionType extends BaseType {
         super();
 
         if (node) {
-            this.comment = getJSDocCommentsAndTags(node).map(node => node.comment).join(' ');
+            this.comment = getJSDocCommentsAndTags(node).map(
+                node => {
+                    if (!isJSDoc(node)) {
+                        return '';
+                    }
+
+                    let comment = node.comment || '';
+                    if (!node.tags) {
+                        return comment;
+                    }
+                    return comment + '\n' + node.tags.map(tag => `@${tag.tagName.getText()}: ${tag.comment}`).join('\n')
+                }
+            ).join(' ')
+
             // this.comment = `(${getJSDocTags(node)} ${node.parameters.map((p) => p.getFullText()).join(",")}) =>${node.type?.getFullText()}`;
         }
     }
