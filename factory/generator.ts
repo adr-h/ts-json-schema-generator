@@ -1,3 +1,4 @@
+import type { Program } from "typescript";
 import type { Config } from "../src/Config.js";
 import { DEFAULT_CONFIG } from "../src/Config.js";
 import { SchemaGenerator } from "../src/SchemaGenerator.js";
@@ -8,6 +9,14 @@ import { createProgram } from "./program.js";
 export function createGenerator(config: Config): SchemaGenerator {
     const completedConfig = { ...DEFAULT_CONFIG, ...config };
     const program = createProgram(completedConfig);
+    const parser = createParser(program, completedConfig);
+    const formatter = createFormatter(completedConfig);
+
+    return new SchemaGenerator(program, parser, formatter, completedConfig);
+}
+
+export function createGeneratorFromProgram(program: Program, config: Config): SchemaGenerator {
+    const completedConfig = { ...DEFAULT_CONFIG, ...config };
     const parser = createParser(program, completedConfig);
     const formatter = createFormatter(completedConfig);
 
